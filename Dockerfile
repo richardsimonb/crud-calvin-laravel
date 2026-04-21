@@ -1,15 +1,17 @@
-FROM dhi.io/composer:2.9 as composer
+FROM composer:2.9.7 AS composer
 
-COPY composer.json .
+WORKDIR /app
 
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
+COPY composer.* ./
 
-FROM dunglas/frankenphp as app
+RUN composer install --no-scripts --prefer-dist --optimize-autoloader
+
+FROM dunglas/frankenphp AS app
 
 RUN install-php-extensions \
 	pdo_pgsql
 
-COPY . .
+COPY . /app
 COPY --from=composer /app/vendor /app/vendor
 
 ENV SERVER_NAME=:80

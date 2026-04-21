@@ -5,9 +5,10 @@ services:
             context: .
             dockerfile: Dockerfile
         ports:
-            - '8282:80'
+            - '${APP_PORT:-8080}:80'
         depends_on:
             - pgsql
+        command: ['php','artisan', 'test']
     pgsql:
         image: 'postgres:17'
         ports:
