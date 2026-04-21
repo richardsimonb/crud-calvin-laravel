@@ -6,8 +6,6 @@ services:
             dockerfile: Dockerfile
         ports:
             - '8282:80'
-        volumes:
-            - '.:/app'
         depends_on:
             - pgsql
     pgsql:
