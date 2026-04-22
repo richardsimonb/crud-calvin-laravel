@@ -14,7 +14,10 @@ class PersonController extends Controller
         if ($person->isEmpty()) {
             return response()->json(['message' => 'Data not found'], 404);
         }
-        return response()->json($person, 200);
+        return response()->json([
+            'message' => 'Data retrieved successfully',
+            'data' => $person
+        ], 200);
     }
 
     public function show($id) : JsonResponse
@@ -23,12 +26,15 @@ class PersonController extends Controller
         if (!$person) {
             return response()->json(['message' => 'Data not found'], 404);
         }
-        return response()->json($person, 200);
+        return response()->json([
+            'message' => 'Data retrieved successfully',
+            'data' => $person
+        ], 200);
     }
 
     public function store(Request $request) : JsonResponse
     {
-        if($request->expectsJson()) {
+        if(!$request->isJson()) {
             return response()->json(['message' => 'Only Accept JSON'], 400);
         }
         $request->validate([
@@ -39,7 +45,10 @@ class PersonController extends Controller
             return response()->json(['message' => 'Data already exists'], 409);
         }
         $person = Person::create($request->all());
-        return response()->json($person, 200);
+        return response()->json([
+            'message' => 'Data saved successfully',
+            'data' => $person
+        ], 200);
     }
 
     public function update(Request $request, $id) : JsonResponse
@@ -48,12 +57,18 @@ class PersonController extends Controller
         if (!$person) {
             return response()->json(['message' => 'Data not found'], 404);
         }
+        if(!$request->isJson()) {
+            return response()->json(['message' => 'Only Accept JSON'], 400);
+        }
         $request->validate([
             'phone_number' => 'required|string',
         ]);
         $person->phone_number = $request->phone_number;
         $person->update();
-        return response()->json($person, 200);
+        return response()->json([
+            'message' => 'Data updated successfully',
+            'data' => $person
+        ], 200);
     }
 
     public function destroy($id) : JsonResponse
