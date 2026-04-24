@@ -1,2 +1,5 @@
 /vendor
+/public/build
+/node_modules
 .env.example
+.env.testing
