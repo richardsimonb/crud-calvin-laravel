@@ -16,7 +16,7 @@ class PersonFactory extends Factory
     {
         return [
             'name' => fake()->unique()->name(),
-            'phone_number' => fake()->phoneNumber(),
+            'phone_number' => fake()->regexify('/^[0-9]{7,12}$/'),
         ];
     }
 }
