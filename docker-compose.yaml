@@ -8,8 +8,6 @@ services:
             - '${APP_PORT:-8080}:80'
         depends_on:
             - pgsql
-        volumes:
-            - .:/app
     pgsql:
         image: 'postgres:17'
         ports:

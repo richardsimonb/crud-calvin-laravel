@@ -7,8 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
+/*
+* REST API Logic untuk aplikasi CRUD
+* terdiri dari index, show, update, delete, dan exportCsv
+*/
+
 class PersonController extends Controller
 {
+    //Untuk menampilkan semua data
     public function index() : JsonResponse
     {
         $person = Person::all();
@@ -21,6 +27,7 @@ class PersonController extends Controller
         ], 200);
     }
 
+    //Untuk menampilkan satu data
     public function show($id) : JsonResponse
     {
         $person = Person::find($id);
@@ -33,6 +40,7 @@ class PersonController extends Controller
         ], 200);
     }
 
+    //Untuk menyimpan data
     public function store(Request $request) : JsonResponse
     {
         if(!$request->isJson()) {
@@ -56,6 +64,7 @@ class PersonController extends Controller
         ], 200);
     }
 
+    //Untuk memperbaharui data
     public function update(Request $request) : JsonResponse
     {
         if(!$request->isJson()) {
@@ -83,6 +92,7 @@ class PersonController extends Controller
         ], 200);
     }
 
+    //Untuk menghapus data
     public function destroy($id) : JsonResponse
     {
         $person = Person::find($id);
@@ -93,6 +103,7 @@ class PersonController extends Controller
         return response()->json(['message' => 'Data deleted successfully'], 200);
     }
 
+    //Untuk mengambil seluruh data dan menyimpan ke dalam format csv
     public function exportCsv() {
     $callback = function() {
         $file = fopen('php://output', 'w');

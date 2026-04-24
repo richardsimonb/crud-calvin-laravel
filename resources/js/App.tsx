@@ -4,6 +4,10 @@ import AddButton from './AddButton';
 import UpdateButton from './UpdateButton';
 import Table from './Table';
 
+/*
+* Component entrypoint untuk frontend aplikasi CRUD
+*/
+
 type Person = {
   id: number;
   name: string;
