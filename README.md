@@ -1,58 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRUD Application untuk tugas interview Calvin Institute
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Repository ini merupakan aplikasi CRUD yang dibuat sebagai tugas untuk interview.
+Adapun tech stack yang dipakai:
+- Laravel (Backend)
+- React (Frontend)
+- Postgresql (Database)
+- Docker
 
-## About Laravel
+## Quickstart
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+Tahapan paling cepat untuk menggunakan aplikasi adalah dengan menggunakan docker.
+Langkah pertama clone repository ini atau download file zip lalu extract.
+```
+git clone https://github.com/richardsimonb/crud-calvin-laravel.git
+```
+Lalu pindah ke folder repository
+```
+cd crud-calvin-laravel
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Pastikan pada komputer sudah terinstall docker dan docker compose.
+Kemudian jalankan perintah berikut untuk membuat build docker.
+```
+docker compose build --no-cache
+```
 
-## Contributing
+Tunggu beberapa menit, kemudian setelah selesai jalankan docker compose.
+```
+docker compose up -d
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Migration
+Setelah docker berhasil berjalan, lakukan migrasi pada docker.
+```
+docker compose exec app php artisan migrate
+```
 
-## Code of Conduct
+### Testing
+Untuk menjalankan testing di dalam docker gunakan perintah:
+```
+docker compose exec app php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Available Routes
+Akses yang tersedia pada aplikasi:\
+**GET 127.0.0.1:8080**\
+Frontend \
+**GET 127.0.0.1:8080/api/person**\
+API point untuk mengambil seluruh data\
+**GET 127.0.0.1:8080/api/person/{id}**\
+API point untuk mengambil satu data\
+**POST 127.0.0.1:8080/api/person**\
+API point untuk menyimpan data\
+Gunakan Header Content-Type : application/json\
+Contoh body:
+```
+{
+  "name" : "Ark",
+  "phone_number" : "10203040"
+}
+```
+**PATCH 127.0.0.1:8080/api/person**\
+API point untuk memperbaharui data\
+Gunakan header dan contoh body diatas\
+**DELETE 127.0.0.1:8080/api/person/{id}**\
+API point untuk menghapus data
 
-## Security Vulnerabilities
+## Local Environment Installation
+Pastikan sudah terinstall:
+PHP 8.5
+Composer
+Node 20 atau lebih
+PostgreSQL
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Untuk installasi local dapat menjalakan perintah
+```
+composer install
+npm install
+npm run build
+php artisan key:generate
+php artisan migrate
+php artisan serve --port=8080
+```
 
-## License
+Terkait installasi masing-masing komponen dapat merujuk ke:
+- [Laravel](https://laravel.com/docs/13.x/installation)
+- [Composer](https://getcomposer.org/doc/00-intro.md)
+- [Node](https://nodejs.org/en/download)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
