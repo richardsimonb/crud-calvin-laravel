@@ -59,6 +59,8 @@ class APITest extends TestCase
                 'name' => 'John Doe',
                 'phone_number' => '1234567890',
             ]);
+
+        $this->assertDatabaseHas('person', ['name' => 'John Doe', 'phone_number' => '1234567890']);
     }
 
     public function test_api_returns_error_if_name_already_used(): void
@@ -77,11 +79,23 @@ class APITest extends TestCase
             ->assertJsonFragment(['message' => 'Data already exists']);
     }
 
+    public function test_api_returns_error_if_phone_number_is_invalid(): void
+    {
+        $response = $this->json('POST', '/api/person', [
+            'name' => 'John Ark',
+            'phone_number' => 'abcdef',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonFragment(['message' => 'Validation failed']);
+    }
+
     public function test_api_updates_person_data(): void
     {
         $person = Person::factory()->create();
 
-        $response = $this->json('PATCH', "/api/person/{$person->id}", [
+        $response = $this->json('PATCH', "/api/person", [
+            'name' => $person->name,
             'phone_number' => '0987654321',
         ]);
 
@@ -90,6 +104,33 @@ class APITest extends TestCase
                 'name' => $person->name,
                 'phone_number' => '0987654321',
             ]);
+        
+        $this->assertDatabaseHas('person', ['name' => $person->name, 'phone_number' => '0987654321']);
+    }
+
+    
+    public function test_api_returns_error_if_updated_phone_number_is_invalid(): void
+    {
+        $person = Person::factory()->create();
+
+        $response = $this->json('PATCH', "/api/person", [
+            'name' => $person->name,
+            'phone_number' => 'abcdef',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonFragment(['message' => 'Validation failed']);
+    }
+    public function test_api_returns_no_content_if_updated_phone_number_is_same(): void
+    {
+        $person = Person::factory()->create();
+
+        $response = $this->json('PATCH', "/api/person", [
+            'name' => $person->name,
+            'phone_number' => $person->phone_number,
+        ]);
+
+        $response->assertStatus(204);
     }
 
     public function test_api_deletes_person_data(): void
@@ -103,7 +144,5 @@ class APITest extends TestCase
 
         $this->assertDatabaseMissing('person', ['id' => $person->id]);
     }
-
-    
 
 }
