@@ -46,12 +46,7 @@ function App() {
       const response = await fetch(
         '/api/person');
       if (!response.ok) {
-        if (response.status === 404) {
-          setData([]);
-          return
-        } else {
-          throw new Error("Something went wrong");
-        }
+        throw new Error("Something went wrong");
       }
       const result = await response.json();
       setData(result.data);

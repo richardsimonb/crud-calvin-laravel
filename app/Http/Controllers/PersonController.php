@@ -18,9 +18,6 @@ class PersonController extends Controller
     public function index() : JsonResponse
     {
         $person = Person::all();
-        if ($person->isEmpty()) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
         return response()->json([
             'message' => 'Data retrieved successfully',
             'data' => $person

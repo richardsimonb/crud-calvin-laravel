@@ -19,12 +19,12 @@ class APITest extends TestCase
             ->assertJsonCount(3, 'data');
     }
 
-    public function test_api_returns_error_if_person_list_is_empty(): void
+    public function test_api_returns_empty_array_if_person_list_is_empty(): void
     {
         $response = $this->get('/api/person');
 
-        $response->assertStatus(404)
-            ->assertJsonFragment(['message' => 'Data not found']);
+        $response->assertStatus(200)
+            ->assertJsonCount(0, 'data');
     }
 
     public function test_api_returns_a_person_data(): void
@@ -37,14 +37,6 @@ class APITest extends TestCase
                 'name' => $person->name,
                 'phone_number' => $person->phone_number,
             ]);
-    }
-
-    public function test_api_returns_error_if_data_is_empty(): void
-    {
-        $response = $this->get('/api/person');
-
-        $response->assertStatus(404)
-            ->assertJsonFragment(['message' => 'Data not found']);
     }
 
     public function test_api_stores_person_data(): void
