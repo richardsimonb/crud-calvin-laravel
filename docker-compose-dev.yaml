@@ -1,0 +1,37 @@
+name : crud-dev-compose
+services:
+    dev:
+        image: crud-dev
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - '${APP_PORT:-8080}:80'
+        depends_on:
+            - pgsql
+        volumes:
+            -  '.:/app'
+    pgsql:
+        image: 'postgres:17'
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'pgsql:/var/lib/postgresql/data'
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE}'
+                - '-U'
+                - '${DB_USERNAME}'
+            retries: 3
+            timeout: 5s
+volumes:
+  pgsql:
