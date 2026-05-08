@@ -11,7 +11,7 @@ function UpdateButton({ onUpdateData }: { onUpdateData: (id: number, name: strin
         dialog.showModal();
     };
 
-    function handleCloseUpdate(){
+    function handleCloseUpdate() {
         setIsOpen(false);
         const dialog = document.querySelector('#update-dialog') as HTMLDialogElement;
         dialog.close();
@@ -25,12 +25,13 @@ function UpdateButton({ onUpdateData }: { onUpdateData: (id: number, name: strin
             >
                 Update
             </button>
-            <dialog id="update-dialog" className={`fixed flex items-center justify-center my-4 mx-auto ${isOpen ? 'block' : 'hidden'}`}>
+            {isOpen && <dialog key={'update'} id="update-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto`}>
                 <div className="p-4">
                     <h3 className="text-lg font-bold mb-2">Update Data</h3>
-                    <Form onClose={handleCloseUpdate} handleData={onUpdateData} formType='update'  />
+                    <Form onClose={handleCloseUpdate} handleData={onUpdateData} formType='update' />
                 </div>
-            </dialog>
+            </dialog>}
+
         </>
 
     );

@@ -7,20 +7,10 @@ function Form({ onClose, handleData, formType }: { onClose: () => void; handleDa
     const [validName, setValidName] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [samePhoneNumber, setSamePhoneNumber] = useState(false);
-
-    function closeDialog() {
-        setName('');
-        setPhoneNumber('');
-        setValidPhoneNumber(true);
-        setValidName(true);
-        setError(null)
-        setSamePhoneNumber(false);
-        onClose();
-    }
-
-    function handleCloseAdd(e: React.MouseEvent<HTMLButtonElement>) {
+    
+    function handleClose(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        closeDialog();
+        onClose()
     }
 
     function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -66,7 +56,7 @@ function Form({ onClose, handleData, formType }: { onClose: () => void; handleDa
             }
             const result = await response.json();
             handleData(result.data.id, result.data.name, result.data.phone_number);
-            closeDialog();
+            onClose();
         } catch (error: any) {
             setError(error.message);
         } finally {
@@ -130,7 +120,7 @@ function Form({ onClose, handleData, formType }: { onClose: () => void; handleDa
             <div className="flex justify-center gap-2">
                 <button
                     type="button"
-                    onClick={handleCloseAdd}
+                    onClick={handleClose}
                     className="bg-gray-500 hover:bg-gray-700 text-white text-sm font-bold py-1 px-2 rounded"
                 >
                     Cancel

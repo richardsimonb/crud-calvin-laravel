@@ -7,12 +7,10 @@ services:
             dockerfile: Dockerfile.dev
         ports:
             - '${APP_PORT:-8080}:80'
-            - '5173:5173'
         depends_on:
             - pgsql
         volumes:
             -  '.:/app'
-        command: ['npm','start','dev']
     pgsql:
         image: 'postgres:17'
         ports:
