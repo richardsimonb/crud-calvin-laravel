@@ -25,12 +25,12 @@ function UpdateButton({ onUpdateData }: { onUpdateData: (id: number, name: strin
             >
                 Update
             </button>
-            {isOpen && <dialog key={'update'} id="update-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto`}>
+            <dialog key={'update'} id="update-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto ${!isOpen && 'hidden'}`}>
                 <div className="p-4">
                     <h3 className="text-lg font-bold mb-2">Update Data</h3>
-                    <Form onClose={handleCloseUpdate} handleData={onUpdateData} formType='update' />
+                    {isOpen && <Form onClose={handleCloseUpdate} handleData={onUpdateData} formType='update' />}
                 </div>
-            </dialog>}
+            </dialog>
 
         </>
 

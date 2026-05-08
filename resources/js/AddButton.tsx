@@ -25,12 +25,12 @@ function AddButton({ onAddData }: { onAddData: (id: number, name: string, phone_
             >
                 Add
             </button>
-            {isOpen && <dialog key={'add'} id="add-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto`}>
+            <dialog key={'add'} id="add-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto ${!isOpen && 'hidden'}`}>
                 <div className="p-4">
                     <h3 className="text-lg font-bold mb-2">Add Person</h3>
-                    <Form onClose={handleClose} handleData={onAddData} formType='add' />
+                    {isOpen && <Form onClose={handleClose} handleData={onAddData} formType='add' />}
                 </div>
-            </dialog>}
+            </dialog>
         </>
 
     );
