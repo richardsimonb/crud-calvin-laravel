@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Form from './Form';
 
 function AddButton({ onAddData }: { onAddData: (id: number, name: string, phone_number: string) => void }) {
     const [isOpen, setIsOpen] = useState(false);
+    let dialogRef = useRef<HTMLDialogElement | null>(null);
 
     function handleOpen(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         setIsOpen(true);
-        const dialog = document.querySelector('#add-dialog') as HTMLDialogElement;
-        dialog.showModal();
+        dialogRef.current?.showModal();
     };
 
     function handleClose() {
         setIsOpen(false);
-        const dialog = document.querySelector('#add-dialog') as HTMLDialogElement;
-        dialog.close();
+        dialogRef.current?.close();
     }
 
     return (
@@ -25,7 +24,7 @@ function AddButton({ onAddData }: { onAddData: (id: number, name: string, phone_
             >
                 Add
             </button>
-            <dialog key={'add'} id="add-dialog" className={`fixed inset-0 flex items-center justify-center my-4 mx-auto ${!isOpen && 'hidden'}`}>
+            <dialog ref={dialogRef} className={`fixed inset-0 flex items-center justify-center my-4 mx-auto ${!isOpen && 'hidden'}`}>
                 <div className="p-4">
                     <h3 className="text-lg font-bold mb-2">Add Person</h3>
                     {isOpen && <Form onClose={handleClose} handleData={onAddData} formType='add' />}
