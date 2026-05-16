@@ -42,9 +42,11 @@ function App() {
   }
 
   const fetchData = async () => {
+    const controller = new AbortController();
+    const signal = controller.signal
     try {
       const response = await fetch(
-        '/api/person');
+        '/api/person', {signal});
       if (!response.ok) {
         throw new Error("Something went wrong");
       }
@@ -56,6 +58,7 @@ function App() {
       setError(null);
       setLoading(false);
     }
+    return () => controller.abort();
   };
   useEffect(() => {
     fetchData();
